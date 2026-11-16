@@ -1,0 +1,43 @@
+﻿from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
+from datetime import datetime
+import uuid
+
+class UserBase(BaseModel):
+    email: EmailStr
+    full_name: str
+    
+class UserCreate(UserBase):
+    password: str = Field(..., min_length=8)
+    # Module 1: optional workspace name (company) and pending invite token
+    workspace_name: Optional[str] = None
+    invite_token: Optional[str] = None
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
+    role: Optional[str] = None
+    plan: Optional[str] = None
+
+class UserInDBBase(UserBase):
+    id: uuid.UUID
+    is_verified: bool
+    is_active: bool
+    role: str
+    plan: str
+    plan_started_at: Optional[datetime] = None
+    plan_expires_at: Optional[datetime] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class User(UserInDBBase):
+    pass
+
+class UserInDB(UserInDBBase):
+    hashed_password: str
+

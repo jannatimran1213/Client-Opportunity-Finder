@@ -1,0 +1,26 @@
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+
+# Next.js
+node_modules/
+.next/
+out/
+.vercel/
+
+# Large OpenStreetMap files
+*.osm.pbf
+fastapi-backend/data/pbf/
+
+# Build files
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
